@@ -1,0 +1,7 @@
+*.csv
+*.png
+*.jpg
+*.mp4
+*.h5
+.ipynb_checkpoints/*
+__pycache__/*

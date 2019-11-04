@@ -1,0 +1,123 @@
+<html>
+  <head>
+  	<meta http-equiv="refresh" content="3" />
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  	
+  	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+	<style>
+		.counter
+		{
+		    background-color: #eaecf0;
+		    text-align: center;
+		}
+		.employees,.customer,.design,.order
+		{
+		    margin-top: 70px;
+		    margin-bottom: 70px;
+		    margin-left: 150px;
+		    text-align: center;
+		}
+		.counter-count
+		{
+		    font-size: 30px;
+		    font-weight: bold;
+		    background-color: #00b3e7;
+		    border-radius: 50%;
+		    position: relative;
+		    color: #ffffff;
+		    text-align: center;
+		    line-height: 92px;
+		    width: 92px;
+		    height: 92px;
+		    -webkit-border-radius: 50%;
+		    -moz-border-radius: 50%;
+		    -ms-border-radius: 50%;
+		    -o-border-radius: 50%;
+		    display: inline-block;
+		}
+
+		.employee-p,.customer-p,.order-p,.design-p
+		{
+		    font-size: 24px;
+		    color: #000000;
+		    line-height: 34px;
+		}
+	</style>
+	<script>
+	window.onload = function () {
+		$.ajax({
+		    url: "/api/getGenders",
+		    context: document.body,
+		    success: function(response){
+		  //   	classes = response[0]
+		  //   	counts = response[1]
+				// var arrayData = []
+				// for (i=0; i< classes.length; i++) {
+				// 	var jsonDataPoint = {}
+				// 	jsonDataPoint['y'] = counts[i]
+				// 	jsonDataPoint['label'] = classes[i]
+				// 	arrayData.push(jsonDataPoint)
+				// }
+				var chart = new CanvasJS.Chart("chartContainer", {
+					animationEnabled: false,
+					theme: "dark2", // "light1", "light2", "dark1", "dark2"
+					title:{
+						text: "Gender Ratio"
+					},
+					axisY: {
+						title: "# of people"
+					},
+					data: [{        
+						type: "column",  
+						showInLegend: true, 
+						legendMarkerColor: "grey",
+						legendText: "# of people in dataset",
+						dataPoints: response['Gender']
+					}]
+				});
+				var chart2 = new CanvasJS.Chart("chartContainer2", {
+					animationEnabled: false,
+					theme: "dark2", // "light1", "light2", "dark1", "dark2"
+					title:{
+						text: "Age Buckets"
+					},
+					axisY: {
+						title: "# of people"
+					},
+					data: [{        
+						type: "column",  
+						showInLegend: true, 
+						legendMarkerColor: "grey",
+						legendText: "# of people in dataset",
+						dataPoints: response['Age']
+					}]
+				});
+				document.getElementById('countContainer').innerHTML = response['count']
+				// $('#countContainer').val(response['count'])
+				chart.render();
+				chart2.render()
+		    }
+		});
+	
+
+	}
+	</script>
+  </head>
+  <body>
+     <!-- <h1>aHello World</h1> -->
+     <div class="row" style="margin-bottom: 20px">
+     <div id="chartContainer" class="col-xs-6" style="height: 50%;"></div>
+     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+        <div class="employees">
+            <p class="counter-count" id='countContainer'></p>
+            <p class="employee-p">Total Count</p>
+        </div>
+     </div>
+  	</div>
+    <div id="chartContainer2" style="height: 50%;width: 938px"></div>
+  </body>
+</html>
